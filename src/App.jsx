@@ -6,6 +6,8 @@ import TheTextarea from './components/TheTextarea';
 import { travelData, ticketObj } from './data/data';
 import CardSpot from './components/CardSpot';
 import { validateForm } from './utils';
+import mainImg from './images/main_img.png';
+import logoImg from './images/logo.png';
 function App() {
   const [travelList, setTravelList] = useState(travelData);
   const [ticket, setTicket] = useState(ticketObj);
@@ -58,9 +60,9 @@ function App() {
               <div className="input-board shadow-main p-6 py-md-15 px-xl-24
                 d-flex flex-column flex-md-row">
                 <div className='w-100 w-lg-50 text-center me-lg-r3 mb-2 mb-lg-0'>
-                  <img src="../src/images/main_img.png" alt="main_img"
+                  <img src={mainImg} alt="main_img"
                     className='input-board__img img-fluid'/>
-                  <img src="../src/images/logo.png" alt="logo-png"
+                  <img src={logoImg} alt="logo-png"
                     className='img-fluid d-none d-lg-block'/>
                 </div>
                 <div className="w-100 w-lg-50">
