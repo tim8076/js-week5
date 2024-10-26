@@ -1,0 +1,9 @@
+.input-board {
+  border-radius: 0.75rem;
+  &__img {
+    height: 150px;
+    @include media-breakpoint-up(md) {
+      height: 250px;
+    }
+  }
+}
