@@ -96,7 +96,7 @@ function App() {
                     labelName="套票金額"
                     type="number"
                     name="price"
-                    value={ticket.price === 0 ? "" : ticket.price}
+                    value={ticket.price}
                     placeholder="請填寫套票金額"
                     min={0}
                     handleInputChange={handleInputChange}/>
@@ -104,7 +104,7 @@ function App() {
                     labelName="套票組數"
                     type="number"
                     name="group"
-                    value={ticket.group === 0 ? "" : ticket.group}
+                    value={ticket.group}
                     placeholder="請填寫套票組數"
                     min={0}
                     handleInputChange={handleInputChange}/>
@@ -112,7 +112,7 @@ function App() {
                     labelName="套票星級"
                     type="number"
                     name="rate"
-                    value={ticket.rate === 0 ? "" : ticket.rate}
+                    value={ticket.rate}
                     placeholder="請填寫套票星級"
                     min={1}
                     max={10}
@@ -140,7 +140,9 @@ function App() {
         <div className="container">
           <div className="row align-items-center mb-6 mb-lg-13">
             <div className="col-md-3 offset-md-1 mb-2 mb-md-0">
-              <select className="form-select" defaultValue={ticket.area}
+              <select className="form-select"
+                defaultValue=""
+                value={filterText}
                 onChange={(e) => setFilerText(e.target.value)}>
                 <option value="" disabled>地區搜尋</option>
                 <option value="全部地區">全部地區</option>

@@ -37,7 +37,7 @@ export const ticketObj = {
   imgUrl: "",
   area: "",
   description: "",
-  group: 0,
-  price: 0,
-  rate: 0,
+  group: "",
+  price: "",
+  rate: "",
 }
