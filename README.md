@@ -1,4 +1,4 @@
-# JS 直播班 第五週作業
+# JS 直播班 第五、六週作業
 
 ![](https://cdn-images-1.medium.com/max/1000/1*9LBOS7RKnhvXqngz7zWpgQ.png)
 

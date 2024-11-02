@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './assets/scss/all.scss';
 import TheInput from './components/TheInput';
 import TheSelect from './components/TheSelect';
 import TheTextarea from './components/TheTextarea';
-import { travelData, ticketObj } from './data/data';
 import CardSpot from './components/CardSpot';
+import { ticketObj } from './data/data';
 import { validateForm } from './utils';
 import mainImg from './images/main_img.png';
 import logoImg from './images/logo.png';
+import axios from 'axios';
 function App() {
-  const [travelList, setTravelList] = useState(travelData);
+  const [travelList, setTravelList] = useState([]);
   const [ticket, setTicket] = useState(ticketObj);
   const [filterText, setFilerText] = useState('');
+  const apiUrl = 'https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json';
   
   // 地區 select 下拉選單
   const areaList = [...new Set(travelList.map(spot => {
@@ -50,6 +52,20 @@ function App() {
     ]);
     setTicket(ticketObj);
   }
+  
+  // 取得遠端資料
+  async function getTravelListData() {
+    try {
+      const res = await axios.get(apiUrl);
+      setTravelList(res.data.data);
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getTravelListData();
+  }, []);
 
   return (
     <>
@@ -141,11 +157,11 @@ function App() {
           <div className="row align-items-center mb-6 mb-lg-13">
             <div className="col-md-3 offset-md-1 mb-2 mb-md-0">
               <select className="form-select"
-                defaultValue=""
                 value={filterText}
                 onChange={(e) => setFilerText(e.target.value)}>
                 <option value="" disabled>地區搜尋</option>
                 <option value="全部地區">全部地區</option>
+                <option value="台南">台南</option>
                 {
                   areaList.map(area => {
                     return <option value={area} key={area}>{area}</option>
@@ -160,14 +176,22 @@ function App() {
             </div>
           </div>
           <div className="row">
-            {
-              filteredList.map(spot => {
-                return (
-                  <div className="col-md-6 col-lg-4 mb-6 mb-lg-8" key={spot.id}>
-                    <CardSpot {...spot}/>
-                  </div>
-                )
-              })
+            { filteredList.length > 0 ? (
+                filteredList.map(spot => {
+                  return (
+                    <div className="col-md-6 col-lg-4 mb-6 mb-lg-8" key={spot.id}>
+                      <CardSpot {...spot}/>
+                    </div>
+                  )
+                })
+              ) : (
+                <div className='text-center'>
+                  <h3 className='mb-6'>查無此關鍵字資料</h3>
+                  <img src="https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/no_found.png?raw=true"
+                    alt="not-found-image"
+                    className='img-fluid object-fit-cover'/>
+                </div>
+              )
             }
           </div>
         </div>
