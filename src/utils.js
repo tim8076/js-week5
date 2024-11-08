@@ -1,3 +1,4 @@
+// 驗證表格欄位
 export function validateForm(obj) {
   let errorMsg = '';
   if (!obj.name) {
@@ -16,4 +17,30 @@ export function validateForm(obj) {
     errorMsg = "套票描述必填，且不能超過 100 字!";
   }
   return errorMsg;
+}
+
+// 篩選套票地區
+export function filterList(travelList, filterText) {
+  if (!filterText || filterText === '全部地區') return travelList;    
+  return travelList.filter(spot => { 
+    return spot.area === filterText;
+  });
+}
+
+// 計算套票地區比重
+export function countTravelAreaRatio(data) {
+  const areaCount = {};
+  data.forEach(place => {
+    if (!areaCount[place.area]) {
+      areaCount[place.area] = 1;
+    } else {
+      areaCount[place.area] += 1;
+    }
+  })
+  const totalAreaCout = data.length;
+  const areaRatio = {};
+  Object.keys(areaCount).forEach(area => {
+    areaRatio[area] = parseFloat((areaCount[area] / totalAreaCout * 100).toFixed(2));
+  })
+  return Object.entries(areaRatio);
 }

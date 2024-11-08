@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import 'c3/c3.css';
 import './assets/scss/all.scss';
 import TheInput from './components/TheInput';
 import TheSelect from './components/TheSelect';
 import TheTextarea from './components/TheTextarea';
 import CardSpot from './components/CardSpot';
+import C3Chart from './components/C3Chart';
 import { ticketObj } from './data/data';
-import { validateForm } from './utils';
+import { validateForm, filterList, countTravelAreaRatio } from './utils';
 import mainImg from './images/main_img.png';
 import logoImg from './images/logo.png';
 import axios from 'axios';
@@ -21,14 +23,12 @@ function App() {
   }))]
   
   // 篩選後列表
-  const filteredList = filterList(travelList);
+  const filteredList = filterList(travelList, filterText);
   
-  function filterList(travelList) {
-    if (!filterText || filterText === '全部地區') return travelList;    
-    return travelList.filter(spot => { 
-      return spot.area === filterText;
-    });
-  }
+  // c3表格用資料
+  const c3Data = useMemo(() => {
+    return countTravelAreaRatio(travelList);
+  }, [travelList]);
 
   function handleInputChange(e) {
     let value = e.target.value;
@@ -154,25 +154,32 @@ function App() {
       </div>
       <div className="py-6 py-md-10 pt-lg-14 pb-lg-30 bg-gray-100">
         <div className="container">
-          <div className="row align-items-center mb-6 mb-lg-13">
-            <div className="col-md-3 offset-md-1 mb-2 mb-md-0">
-              <select className="form-select"
-                value={filterText}
-                onChange={(e) => setFilerText(e.target.value)}>
-                <option value="" disabled>地區搜尋</option>
-                <option value="全部地區">全部地區</option>
-                <option value="台南">台南</option>
-                {
-                  areaList.map(area => {
-                    return <option value={area} key={area}>{area}</option>
-                  })
-                }
-              </select>
+          <div className="row align-items-start mb-6 mb-lg-13">
+            <div className="col-md-6 offset-md-1 mb-2 mb-md-0">
+              <div className="row align-items-center">
+                <div className="col-md-6 mb-3 mb-md-0">
+                  <select className="form-select"
+                    value={filterText}
+                    onChange={(e) => setFilerText(e.target.value)}>
+                    <option value="" disabled>地區搜尋</option>
+                    <option value="全部地區">全部地區</option>
+                    <option value="台南">台南</option>
+                    {
+                      areaList.map(area => {
+                        return <option value={area} key={area}>{area}</option>
+                      })
+                    }
+                  </select>
+                </div>
+                <div className="col-md-6">
+                  <p className='text-center text-md-start'>
+                    本次搜尋共 {filteredList.length} 筆資料
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="col-md-6">
-              <p className='text-center text-md-start'>
-                本次搜尋共 {filteredList.length} 筆資料
-              </p>
+            <div className="col-md-3 ms-auto">
+              <C3Chart data={c3Data}/>
             </div>
           </div>
           <div className="row">
