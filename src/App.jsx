@@ -26,7 +26,7 @@ function App() {
   const filteredList = filterList(travelList, filterText);
   
   // c3表格用資料
-  const c3Data = useMemo(() => {
+  const travelDataRatio = useMemo(() => {
     return countTravelAreaRatio(travelList);
   }, [travelList]);
 
@@ -179,7 +179,7 @@ function App() {
               </div>
             </div>
             <div className="col-md-3 ms-auto">
-              <C3Chart data={c3Data}/>
+              <C3Chart data={travelDataRatio} title="套票地區比重"/>
             </div>
           </div>
           <div className="row">

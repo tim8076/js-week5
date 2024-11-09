@@ -37,10 +37,5 @@ export function countTravelAreaRatio(data) {
       areaCount[place.area] += 1;
     }
   })
-  const totalAreaCout = data.length;
-  const areaRatio = {};
-  Object.keys(areaCount).forEach(area => {
-    areaRatio[area] = parseFloat((areaCount[area] / totalAreaCout * 100).toFixed(2));
-  })
-  return Object.entries(areaRatio);
+  return Object.entries(areaCount);
 }

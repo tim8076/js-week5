@@ -1,7 +1,7 @@
 import * as c3 from 'c3';
 import { useEffect, useRef } from 'react';
 
-export default function C3Chart({ data }) {
+export default function C3Chart({ data, title }) {
   const chartRef = useRef(null);
   useEffect(() => {
     const chart = c3.generate({
@@ -18,7 +18,7 @@ export default function C3Chart({ data }) {
         pattern: ['#26C0C7', '#5151D3', '#E68618'],
       },
       donut: {
-        title: "套票地區比重",
+        title: title,
         width: 10,
         label: {
           show: false,
@@ -28,7 +28,7 @@ export default function C3Chart({ data }) {
     return () => {
       chart.destroy();
     };
-  }, [data]);
+  }, [data, title]);
   return (
     <div ref={chartRef}></div>
   )
